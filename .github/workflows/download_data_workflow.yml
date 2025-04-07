@@ -1,10 +1,8 @@
 name: Download data
 
-# Controls when the workflow will run
 on:
-  push:
-    branches:
-      - main
+  schedule:
+    - cron: '0 3 * * *'  # This will run daily at 3 AM UTC
 
 jobs:
   Download-Exchange-Data:
