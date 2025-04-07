@@ -1,0 +1,57 @@
+name: Download data
+
+# Controls when the workflow will run
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  Download-Exchange-Data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: List files
+        run: |
+          ls -ltran
+
+      - name: Download_data-spot
+        run: |
+          docker run --rm \
+          --mount type=bind,source=$(pwd)/user_data,target=/freqtrade/user_data/ \
+          freqtradeorg/freqtrade:stable \
+          download-data \
+          --exchange hyperliquid \
+          --trading-mode spot \
+          --pairs=".*" \
+          --timeframes 1m 3m 5m 15m 30m 1h 2h 4h 8h 12h 1d 3d 1w 1M \
+          --days 3 \
+          --config=/freqtrade/user_data/config.json
+
+
+      - name: Download_data-futures
+        run: |
+          docker run --rm \
+          --mount type=bind,source=$(pwd)/user_data,target=/freqtrade/user_data/ \
+          freqtradeorg/freqtrade:stable \
+          download-data \
+          --exchange hyperliquid \
+          --trading-mode futures \
+          --pairs=".*" \
+          --timeframes 1m 3m 5m 15m 30m 1h 2h 4h 8h 12h 1d 3d 1w 1M \
+          --days 3 \
+          --config=/freqtrade/user_data/config.json
+
+      - name: Fix permissions before commit
+        run: |
+          sudo chown -R $(id -u):$(id -g) .
+
+      #- name: Commit report
+      #  run: |
+      #    git config --global user.name 'Data updater'
+      #    git config --global user.email 'dataupdate@users.noreply.github.com'
+      #    git add .
+      #    git commit -m "Data update hyperliquid"
+      #    git push

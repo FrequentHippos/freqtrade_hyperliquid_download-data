@@ -1,0 +1,9 @@
+{
+    "exchange":
+    {
+        "_ft_has_params":
+        {
+            "ohlcv_has_history": true
+        }
+    }
+}
