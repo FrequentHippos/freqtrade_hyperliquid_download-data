@@ -4,7 +4,7 @@ This repository contains **downloaded market data** for the [Hyperliquid](https:
 
 It will progressively grow over the months.  
 📅 **Data collection started:** 2025-04-01  
-📊 **Includes:** All supported trading pairs and markets on Hyperliquid
+📊 **Includes:** All supported trading pairs and markets on Hyperliquid, meaning spot AND futures
 
 ---
 
