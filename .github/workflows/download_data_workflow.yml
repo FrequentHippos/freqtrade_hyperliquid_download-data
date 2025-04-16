@@ -2,8 +2,8 @@ name: Download data
 
 on:
   schedule:
-    - cron: '0 3 1,3-30/3 * *' # run at every 3rd day or the 1st day of the month
-
+    - cron: '0 3 * * *'  # This will run daily at 3 AM UTC
+    
 jobs:
   Download-Exchange-Data:
     runs-on: ubuntu-latest
