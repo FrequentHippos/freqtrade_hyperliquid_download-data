@@ -1,0 +1,43 @@
+name: report data content
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["download data"]
+    types:
+      - completed
+
+jobs:
+  report_data_content:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: report_data_content_spot
+        run: |
+          docker run --rm \
+            --mount type=bind,source=$(pwd)/user_data,target=/freqtrade/user_data/ \
+            freqtradeorg/freqtrade:stable \
+            list-data \
+            --exchange hyperliquid \
+            --trading-mode spot \
+            --show-timerange | tee data_content_spot.txt
+
+      - name: report_data_content_futures
+        run: |
+          docker run --rm \
+            --mount type=bind,source=$(pwd)/user_data,target=/freqtrade/user_data/ \
+            freqtradeorg/freqtrade:stable \
+            list-data \
+            --exchange hyperliquid \
+            --trading-mode futures \
+            --show-timerange | tee data_content_futures.txt
+
+      - name: Commit report
+        run: |
+          git config --global user.name 'hippocritical'
+          git config --global user.email 'hippocritical@users.noreply.github.com'
+          git add .
+          git commit -m "updated data report"
+          git push

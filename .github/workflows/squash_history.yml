@@ -1,0 +1,41 @@
+name: Squash Git History
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["report data content"]
+    types:
+      - completed
+
+
+jobs:
+  squash_history_only:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set Git identity
+        run: |
+          git config user.name "hippocritical"
+          git config user.email "hippocritical@users.noreply.github.com"
+
+      - name: Squash to last commit only
+        run: |
+          # Create orphan branch with no history
+          git checkout --orphan temp_branch
+      
+          # Stage everything in current working tree
+          git add -A
+      
+          # Make new single commit
+          git commit -m "Squashed: keep only the current state"
+      
+          # Delete old branch and rename
+          git branch -M main  # Or whatever your branch name is
+      
+          # Force push to overwrite
+          git push --force
