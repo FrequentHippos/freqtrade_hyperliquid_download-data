@@ -1,3 +1,7 @@
+This repository is currently too big for github to handle. A private copy is currently still gathered.
+Once the shift to the new platform is made, a link will be here to provide you with the most recent download-data of hyperliquid.
+Nothing is lost, it is being gathered and will be available in the future again.
+
 # freqtrade_hyperliquid_download-data
 
 This repository contains **downloaded market data** for the [Hyperliquid](https://hyperliquid.xyz) decentralized exchange, formatted and ready to be used with [Freqtrade](https://www.freqtrade.io).
